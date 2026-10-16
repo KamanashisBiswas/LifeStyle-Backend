@@ -13,6 +13,7 @@
  *  4. সবগুলো route /api prefix দিয়ে register করা হয়
  *  5. Health check endpoint — সার্ভার চলছে কিনা তা যাচাই করতে
  *  6. Global error handler সবার শেষে add করা হয়
+ *  7. সার্ভার চালু হওয়ার পরে সবকিছু সঠিকভাবে কাজ করছে কিনা তা verify করতে
  * ============================================================
  */
 
@@ -200,16 +201,18 @@ app.use(errorHandler);
 // ─── Server Startup (Local Development) ───────────────────────────────────────
 if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
   const PORT = process.env.PORT || 3000;
-  connectDB().then(() => {
-    const seedRoles = require("./utils/seedRoles");
-    seedRoles().catch((e) => console.error("Seed roles error:", e));
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+  connectDB()
+    .then(() => {
+      const seedRoles = require("./utils/seedRoles");
+      seedRoles().catch((e) => console.error("Seed roles error:", e));
+      app.listen(PORT, () => {
+        console.log(`🚀 Server running on port ${PORT}`);
+        console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+      });
+    })
+    .catch((err) => {
+      console.error("❌ Failed to start local server:", err);
     });
-  }).catch((err) => {
-    console.error("❌ Failed to start local server:", err);
-  });
 }
 
 // Export Express app for Vercel Serverless Functions

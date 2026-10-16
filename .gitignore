@@ -1,0 +1,35 @@
+# Node modules
+node_modules/
+
+# Env files
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.sw?
+
+# Optional build cache (if you ever add a build step)
+dist/
+build/
+
+# Misc
+.env.local
+.env.*.local
+coverage/
+.vercel
+
+.vercel
+.env*.local
+.env*
